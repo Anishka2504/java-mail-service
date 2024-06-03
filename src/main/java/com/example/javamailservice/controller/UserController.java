@@ -1,6 +1,5 @@
 package com.example.javamailservice.controller;
 
-import com.example.javamailservice.entity.ConfirmationToken;
 import com.example.javamailservice.entity.User;
 import com.example.javamailservice.service.EmailService;
 import com.example.javamailservice.service.UserService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.context.Context;
 
 @RestController
 @AllArgsConstructor
@@ -33,10 +31,7 @@ public class UserController {
 
     @PostMapping("/send-email")
     public ResponseEntity<?> sendEmailWithHtml(@RequestBody User user) {
-        Context context = new Context();
-        ConfirmationToken token = new ConfirmationToken(user);
-        context.setVariable("verificationURL", "http://localhost:8081/confirm?token=" + token.getConfirmationToken());
-        emailService.sendMailWithHtmlTemplate(user.getUserEmail(), "Email confirmation", "email-template", context);
+        emailService.sendMailWithHtmlTemplate(user, "Email confirmation", "email-template");
         return ResponseEntity.ok("Verify email by the link on your email");
     }
 

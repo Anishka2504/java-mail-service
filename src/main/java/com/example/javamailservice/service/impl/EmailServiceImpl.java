@@ -34,11 +34,14 @@ public class EmailServiceImpl implements EmailService {
 
     //send email with HTML template
     @Override
-    public void sendMailWithHtmlTemplate(String to, String subject, String templateName, Context context) {
+    public void sendMailWithHtmlTemplate(User user, String subject, String templateName) {
+        ConfirmationToken token = new ConfirmationToken(user);
+        Context context = new Context();
+        context.setVariable("verificationURL", "http://localhost:8081/confirm?token=" + token.getConfirmationToken());
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
         try {
-            messageHelper.setTo(to);
+            messageHelper.setTo(user.getUserEmail());
             messageHelper.setSubject(subject);
             String htmlContent = templateEngine.process(templateName, context);
             messageHelper.setText(htmlContent, true);
