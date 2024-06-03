@@ -1,0 +1,39 @@
+version: '1.0'
+
+volumes:
+  mysql:
+
+networks:
+  email-service-network:
+    name: email-service-network
+    driver: bridge
+
+services:
+
+  adminer:
+    container_name: adminer
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      ADMINER_DESIGN: 'lucas-sandery'
+      MYSQL_HOST: mysql_server
+    networks:
+      - email-service-network
+    ports:
+      - 80:8080
+    links:
+      - mysql:mysql_server
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      -   email-service-network
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql

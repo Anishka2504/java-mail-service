@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email template</title>
+</head>
+<body>
+<p>Подтвердить регистрацию:
+    <a th:href="${verificationURL}">
+        <span th:text="${verificationURL}"></span>
+    </a>
+</p>
+</body>
+</html>
