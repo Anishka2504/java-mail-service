@@ -1,7 +1,6 @@
 package com.example.javamailservice.controller;
 
 import com.example.javamailservice.entity.User;
-import com.example.javamailservice.service.EmailService;
 import com.example.javamailservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    private final EmailService emailService;
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
@@ -28,11 +26,4 @@ public class UserController {
     public ResponseEntity<?> confirmAccount(@RequestParam("token") String confirmationToken) {
         return userService.confirmEmail(confirmationToken);
     }
-
-    @PostMapping("/send-email")
-    public ResponseEntity<?> sendEmailWithHtml(@RequestBody User user) {
-        emailService.sendMailWithHtmlTemplate(user, "Email confirmation", "email-template");
-        return ResponseEntity.ok("Verify email by the link on your email");
-    }
-
 }

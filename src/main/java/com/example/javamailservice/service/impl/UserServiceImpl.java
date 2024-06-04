@@ -8,7 +8,6 @@ import com.example.javamailservice.service.EmailService;
 import com.example.javamailservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +27,8 @@ public class UserServiceImpl implements UserService {
 
         ConfirmationToken token = new ConfirmationToken(user);
         tokenRepository.save(token);
-        emailService.sendMail(user, token);
+//        emailService.sendMail(user, token);
+        emailService.sendMailWithHtmlTemplate(user, token, "Confirm email", "email-template");
         System.out.printf("Confirmation token: %s%n", token.getConfirmationToken());
         return ResponseEntity.ok("Verify email by the link on your email");
     }

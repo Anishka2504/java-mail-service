@@ -7,6 +7,6 @@ public interface EmailService {
 
     void sendMail(User user, ConfirmationToken token);
 
-    void sendMailWithHtmlTemplate(User user, String subject, String templateName);
+    void sendMailWithHtmlTemplate(User user, ConfirmationToken token, String subject, String templateName);
 
 }
