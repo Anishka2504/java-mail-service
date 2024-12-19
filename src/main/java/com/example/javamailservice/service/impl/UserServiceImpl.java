@@ -1,5 +1,6 @@
 package com.example.javamailservice.service.impl;
 
+import com.example.javamailservice.annotation.LogExecution;
 import com.example.javamailservice.entity.ConfirmationToken;
 import com.example.javamailservice.entity.User;
 import com.example.javamailservice.repository.ConfirmationTokenRepository;
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
 
     @Override
+    @LogExecution
     public ResponseEntity<?> saveUser(User user) {
         if (userRepository.existsByUserEmail(user.getUserEmail())) {
             return ResponseEntity.badRequest().body("Error: email is already in use");
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @LogExecution
     public ResponseEntity<?> confirmEmail(String confirmationToken) {
         ConfirmationToken token = tokenRepository.findByConfirmationToken(confirmationToken);
         if (token != null) {
@@ -42,6 +45,6 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return ResponseEntity.ok("Email verified successfully");
         }
-        return ResponseEntity.badRequest().body("Error. Could't verify email");
+        return ResponseEntity.badRequest().body("Error. Couldn't verify email");
     }
 }
